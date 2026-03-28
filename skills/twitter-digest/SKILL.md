@@ -32,14 +32,29 @@ PROCESSED_DIR=$VAULT_DIR/twitter-bookmarks/processed
 INSIGHTS_DIR=$VAULT_DIR/insights
 ```
 
+## Step 0 — Fetch bookmarks (if inbox is empty)
+
+If the inbox is empty and no file argument was provided, offer to fetch fresh bookmarks:
+
+```bash
+~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh
+```
+
+If cookies are missing, run with `--refresh-cookies` first (requires Chrome to be closed):
+
+```bash
+~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh --refresh-cookies
+```
+
 ## Step 1 — Find bookmark exports
 
 Look for unprocessed bookmark files in `$INBOX_DIR/`. If `$ARGUMENTS` specifies a file path, use that instead. Supported formats:
+- **JSON from fetch-bookmarks.sh** (preferred — array of `{text, author, author_handle, url, date}`): the automated pipeline output
 - **JSON** (Twitter data export `bookmarks.js`, or browser extension exports)
 - **CSV** (common extension format: columns like `text`, `url`, `author`, `created_at`)
 - **Markdown** (manually saved threads or lists)
 
-If no files found, tell the user and suggest how to export:
+If no files found and fetch script isn't available, suggest manual export:
 1. **X data export**: Settings → Your Account → Download an archive → extract `data/bookmarks.js`
 2. **Browser extensions**: "Bookmark Bird", "Dewey", or similar → export as CSV/JSON
 3. **Manual**: Copy-paste interesting threads into a `.md` file in the inbox folder
