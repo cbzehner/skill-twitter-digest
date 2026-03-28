@@ -1,6 +1,6 @@
 ---
 name: twitter-digest
-description: Process exported Twitter/X bookmarks, categorize insights, and update the knowledge vault. Use when the user wants to process their Twitter bookmarks or run a digest.
+description: Process exported Twitter/X bookmarks, categorize insights, and update the knowledge vault. Use this whenever the user mentions bookmarks, saved tweets, Twitter digest, or wants to process and categorize their saved social media content.
 argument-hint: "[path to export file]"
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent
 ---
@@ -8,6 +8,12 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent
 # Twitter Bookmark Digest
 
 Process exported Twitter/X bookmarks, extract insights, and update the vault and CLAUDE.md.
+
+## When NOT to Use
+
+- **Posting or searching Twitter** — this skill processes exports, it doesn't interact with the Twitter API
+- **Single articles or links** — just add them to the vault directly; this is for batch bookmark processing
+- **Recalling past digests** — use `/seance` to find previous processing sessions
 
 ## Context
 
