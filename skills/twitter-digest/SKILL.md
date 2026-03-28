@@ -2,7 +2,7 @@
 name: twitter-digest
 description: Process exported Twitter/X bookmarks, categorize insights, and update the knowledge vault. Use this whenever the user mentions bookmarks, saved tweets, Twitter digest, or wants to process and categorize their saved social media content.
 argument-hint: "[path to export file]"
-allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent
+allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent, WebFetch, Skill
 ---
 
 # Twitter Bookmark Digest
@@ -58,6 +58,19 @@ If no files found and fetch script isn't available, suggest manual export:
 1. **X data export**: Settings → Your Account → Download an archive → extract `data/bookmarks.js`
 2. **Browser extensions**: "Bookmark Bird", "Dewey", or similar → export as CSV/JSON
 3. **Manual**: Copy-paste interesting threads into a `.md` file in the inbox folder
+
+## Step 1.5 — Enrich articles and threads
+
+Some bookmarks are X Articles (Notes) or thread references where the `text` field is just a URL like `x.com/i/article/...`. These need enrichment before categorization.
+
+For bookmarks where `text` matches `x.com/i/article/` or is mostly a URL with little context:
+1. Use WebFetch or the `defuddle` skill to retrieve the article/page content
+2. Replace the URL-only `text` with the fetched content (or a summary if very long)
+3. If fetch fails, keep the original and categorize based on the author and any surrounding text
+
+Process these in batches of 5-10 to avoid rate limiting. Skip enrichment for normal tweets that already have substantive text.
+
+For thread references (`x.com/.../status/...` links in the text), fetch the referenced tweet if the bookmark text alone lacks enough context to categorize.
 
 ## Step 2 — Read and categorize
 
