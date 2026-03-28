@@ -25,7 +25,7 @@ Reads bookmark exports (JSON, CSV, or Markdown), categorizes each by topic, extr
 ### From Marketplace
 
 ```bash
-/plugin marketplace add cbzehner/claude-skill-twitter-digest
+/plugin marketplace add cbzehner/skill-twitter-digest
 /plugin install twitter-digest@cbzehner
 ```
 
@@ -33,7 +33,7 @@ Reads bookmark exports (JSON, CSV, or Markdown), categorizes each by topic, extr
 
 ```bash
 cd ~/.claude/skills/
-git clone https://github.com/cbzehner/claude-skill-twitter-digest.git twitter-digest
+git clone https://github.com/cbzehner/skill-twitter-digest.git twitter-digest
 ```
 
 ## License
