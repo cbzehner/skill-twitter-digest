@@ -1,0 +1,11 @@
+{
+  "name": "twitter-digest",
+  "description": "Process exported Twitter/X bookmarks, categorize insights, and update a knowledge vault.",
+  "version": "1.0.0",
+  "author": {
+    "name": "cbzehner",
+    "email": "chris@cbzehner.com"
+  },
+  "repository": "https://github.com/cbzehner/claude-skill-twitter-digest",
+  "license": "MIT"
+}

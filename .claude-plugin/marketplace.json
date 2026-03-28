@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "twitter-digest",
+  "owner": {
+    "name": "cbzehner",
+    "email": "chris@cbzehner.com"
+  },
+  "plugins": [
+    {
+      "name": "twitter-digest",
+      "source": "./",
+      "description": "Process Twitter/X bookmarks into categorized knowledge vault entries",
+      "version": "1.0.0",
+      "author": {
+        "name": "cbzehner",
+        "email": "chris@cbzehner.com"
+      },
+      "category": "productivity",
+      "homepage": "https://github.com/cbzehner/claude-skill-twitter-digest"
+    }
+  ]
+}
