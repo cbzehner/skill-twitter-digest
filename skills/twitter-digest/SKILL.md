@@ -3,11 +3,13 @@ name: twitter-digest
 description: Process exported Twitter/X bookmarks, categorize insights, and update the knowledge vault. Use this whenever the user mentions bookmarks, saved tweets, Twitter digest, or wants to process and categorize their saved social media content.
 argument-hint: "[path to export file]"
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep, Agent, WebFetch, Skill
+# Note: Agent, WebFetch, and Skill are Claude Code tools. On other hosts,
+# use equivalent capabilities or degrade gracefully.
 ---
 
 # Twitter Bookmark Digest
 
-Process exported Twitter/X bookmarks, extract insights, and update the vault and CLAUDE.md.
+Process exported Twitter/X bookmarks, extract insights, and update the vault plus any relevant agent guidance files.
 
 ## When NOT to Use
 
@@ -19,7 +21,7 @@ Process exported Twitter/X bookmarks, extract insights, and update the vault and
 
 You are processing Twitter/X bookmarks for a startup founder and engineering leader interested in:
 - **CS developments**: PLT, systems, algorithms, novel research
-- **Agentic coding**: AI-assisted development, Claude Code techniques, LLM tooling, prompt engineering
+- **Agentic coding**: AI-assisted development, agent workflow techniques, LLM tooling, prompt engineering
 - **Business & technology**: Startup automation, SaaS, developer tools, product strategy
 - **Engineering leadership**: Team management, hiring, technical decision-making, org design
 
@@ -122,14 +124,14 @@ Group related bookmarks into the same note if they cover the same topic. Create 
 
 Use `[[wikilinks]]` to connect related notes across categories. Tag notes with `#actionable`, `#tool`, `#pattern`, or `#question` as appropriate.
 
-## Step 4 — Surface CLAUDE.md updates
+## Step 4 — Surface agent guidance updates
 
 If any bookmarks suggest:
-- **New tools or libraries** the user should know about → suggest adding to CLAUDE.md
-- **Workflow improvements** for Claude Code or agentic coding → suggest a feedback memory or CLAUDE.md update
-- **Patterns to adopt** in their codebase → suggest a feedback memory
+- **New tools or libraries** the user should know about → suggest adding to `AGENTS.md`, `CLAUDE.md`, or the relevant local guidance file
+- **Workflow improvements** for agentic coding → suggest a guidance-file update or persistent note
+- **Patterns to adopt** in their codebase → suggest a persistent note for future sessions
 
-Present these as suggestions — don't auto-modify CLAUDE.md without confirmation.
+Present these as suggestions — don't auto-modify guidance files without confirmation.
 
 ## Step 5 — Archive processed files
 
@@ -141,4 +143,4 @@ Output a brief digest:
 - Total bookmarks processed
 - Breakdown by category (count)
 - Top 3-5 most actionable insights
-- Any suggested CLAUDE.md or memory updates
+- Any suggested guidance-file or memory updates
