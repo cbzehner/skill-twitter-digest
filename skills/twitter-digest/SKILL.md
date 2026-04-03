@@ -19,11 +19,7 @@ Process exported Twitter/X bookmarks, extract insights, and update the vault plu
 
 ## Context
 
-You are processing Twitter/X bookmarks for a startup founder and engineering leader interested in:
-- **CS developments**: PLT, systems, algorithms, novel research
-- **Agentic coding**: AI-assisted development, agent workflow techniques, LLM tooling, prompt engineering
-- **Business & technology**: Startup automation, SaaS, developer tools, product strategy
-- **Engineering leadership**: Team management, hiring, technical decision-making, org design
+You are processing Twitter/X bookmarks for a startup founder and engineering leader. See [references/categorization-guide.md](references/categorization-guide.md) for interest categories, per-bookmark decision criteria, and vault entry format.
 
 ## Vault Location
 
@@ -63,66 +59,17 @@ If no files found and fetch script isn't available, suggest manual export:
 
 ## Step 1.5 — Enrich articles and threads
 
-Some bookmarks are X Articles (Notes) where the `text` field is just a URL like `x.com/i/article/...`. These need enrichment before categorization.
+Some bookmarks are X Articles (Notes) where the `text` field is just a URL. These need enrichment before categorization.
 
-### Fetching X Article content
-
-Use Twitter's internal GraphQL API with the `TweetResultByRestId` endpoint and `fieldToggles.withArticlePlainText: true`:
-
-```bash
-TWEET_ID="<tweet_id_from_bookmark_url>"
-VARIABLES='{"tweetId":"'$TWEET_ID'","withCommunity":false,"includePromotedContent":false,"withVoice":false}'
-FEATURES='{"articles_preview_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"longform_notetweets_consumption_enabled":true,"longform_notetweets_rich_text_read_enabled":true}'
-FIELD_TOGGLES='{"withArticleRichContentState":false,"withArticlePlainText":true}'
-
-curl -sG "https://x.com/i/api/graphql/qxWQxcMLiTPcavz9Qy5hwQ/TweetResultByRestId" \
-  --data-urlencode "variables=$VARIABLES" \
-  --data-urlencode "features=$FEATURES" \
-  --data-urlencode "fieldToggles=$FIELD_TOGGLES" \
-  -H "authorization: Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA" \
-  -H "x-csrf-token: $CT0" \
-  -H "x-twitter-auth-type: OAuth2Session" \
-  -H "cookie: auth_token=$AUTH_TOKEN; ct0=$CT0"
-```
-
-Response path: `data.tweetResult.result.article.article_results.result.plain_text` (full text) and `.title`.
-
-Auth: uses the same `cookies.txt` from fetch-bookmarks.sh. The bearer token is hardcoded in Twitter's JS bundle (same for everyone). The GraphQL query ID may rotate — check gallery-dl releases if it breaks.
-
-### Processing enriched articles
-
-1. For each article bookmark, extract the tweet ID from the URL and fetch via the endpoint above
-2. Replace the URL-only `text` with the fetched `plain_text` content
-3. If fetch fails (rate limit, auth expired), categorize based on author and any surrounding text
-4. Rate limit: ~2 requests/second is safe
-
-For thread references (`x.com/.../status/...` links in the text), fetch the referenced tweet if the bookmark text alone lacks enough context to categorize.
+See [references/twitter-api-enrichment.md](references/twitter-api-enrichment.md) for the GraphQL endpoint, auth details, and processing steps.
 
 ## Step 2 — Read and categorize
 
-For each bookmark, determine:
-1. **Category**: `cs-developments`, `agentic-coding`, `business-tech`, `engineering-leadership`, or `skip` (memes, noise, off-topic)
-2. **Key insight**: One-line summary of what's valuable
-3. **Actionable?**: Is there something concrete to try, adopt, or investigate?
-4. **Source**: Author + link for attribution
+For each bookmark, determine category, key insight, actionability, and source. See [references/categorization-guide.md](references/categorization-guide.md) for the full decision criteria and category definitions.
 
 ## Step 3 — Update the vault
 
-For each category, append new entries to the corresponding file in `$INSIGHTS_DIR/<category>/`. Use this format:
-
-```markdown
-## [Short Title] — @author
-_Source: [link] | Date processed: YYYY-MM-DD_
-
-Key insight summary.
-
-**Action items** (if any):
-- [ ] Concrete next step
-```
-
-Group related bookmarks into the same note if they cover the same topic. Create new files per topic rather than one giant file per category. Use descriptive filenames like `rust-async-runtimes.md` or `ai-code-review-patterns.md`.
-
-Use `[[wikilinks]]` to connect related notes across categories. Tag notes with `#actionable`, `#tool`, `#pattern`, or `#question` as appropriate.
+For each category, append new entries to the corresponding file in `$INSIGHTS_DIR/<category>/`. See [references/categorization-guide.md](references/categorization-guide.md) for the vault entry format, file naming conventions, and wikilink/tag guidance.
 
 ## Step 4 — Surface agent guidance updates
 
