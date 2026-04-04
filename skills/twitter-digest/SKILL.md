@@ -2,7 +2,10 @@
 name: twitter-digest
 description: Process exported Twitter/X bookmarks, categorize insights, and update the knowledge vault. Use this whenever the user mentions bookmarks, saved tweets, Twitter digest, or wants to process and categorize their saved social media content.
 argument-hint: "[path to export file]"
+arguments:
+  - export_path
 license: MIT
+effort: medium
 allowed-tools: Bash Read Write Edit Glob Grep Agent WebFetch Skill
 # Note: Agent, WebFetch, and Skill are Claude Code tools. On other hosts,
 # use equivalent capabilities or degrade gracefully.
