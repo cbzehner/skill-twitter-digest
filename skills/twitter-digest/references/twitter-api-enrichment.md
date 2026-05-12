@@ -8,6 +8,7 @@ Use Twitter's internal GraphQL API with the `TweetResultByRestId` endpoint and `
 
 ```bash
 TWEET_ID="<tweet_id_from_bookmark_url>"
+TWITTER_BEARER_TOKEN="${TWITTER_BEARER_TOKEN:?set from current X web app request headers}"
 VARIABLES='{"tweetId":"'$TWEET_ID'","withCommunity":false,"includePromotedContent":false,"withVoice":false}'
 FEATURES='{"articles_preview_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"longform_notetweets_consumption_enabled":true,"longform_notetweets_rich_text_read_enabled":true}'
 FIELD_TOGGLES='{"withArticleRichContentState":false,"withArticlePlainText":true}'
@@ -16,7 +17,7 @@ curl -sG "https://x.com/i/api/graphql/qxWQxcMLiTPcavz9Qy5hwQ/TweetResultByRestId
   --data-urlencode "variables=$VARIABLES" \
   --data-urlencode "features=$FEATURES" \
   --data-urlencode "fieldToggles=$FIELD_TOGGLES" \
-  -H "authorization: Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA" \
+  -H "authorization: Bearer $TWITTER_BEARER_TOKEN" \
   -H "x-csrf-token: $CT0" \
   -H "x-twitter-auth-type: OAuth2Session" \
   -H "cookie: auth_token=$AUTH_TOKEN; ct0=$CT0"
@@ -24,7 +25,7 @@ curl -sG "https://x.com/i/api/graphql/qxWQxcMLiTPcavz9Qy5hwQ/TweetResultByRestId
 
 Response path: `data.tweetResult.result.article.article_results.result.plain_text` (full text) and `.title`.
 
-Auth: uses the same `cookies.txt` from fetch-bookmarks.sh. The bearer token is hardcoded in Twitter's JS bundle (same for everyone). The GraphQL query ID may rotate — check gallery-dl releases if it breaks.
+Auth: uses the same `cookies.txt` from fetch-bookmarks.sh. Capture the current bearer token from an authenticated X web request or browser devtools; do not commit literal tokens. The GraphQL query ID may rotate — check gallery-dl releases if it breaks.
 
 ## Processing enriched articles
 
