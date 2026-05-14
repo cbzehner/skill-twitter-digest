@@ -1,6 +1,6 @@
 ---
 name: twitter-digest
-description: Process exported Twitter/X bookmarks, categorize insights, and update the knowledge vault. Use this whenever the user mentions bookmarks, saved tweets, Twitter digest, or wants to process and categorize their saved social media content.
+description: Process Twitter/X bookmark exports into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.
 argument-hint: "[path to export file]"
 arguments:
   - export_path
@@ -17,9 +17,15 @@ Process exported Twitter/X bookmarks, extract insights, and update the vault plu
 
 ## When NOT to Use
 
-- **Posting or searching Twitter** — this skill processes exports, it doesn't interact with the Twitter API
+- **Posting or general Twitter search** — this skill processes exports; it only touches X directly for optional bookmark fetch/enrichment
 - **Single articles or links** — just add them to the vault directly; this is for batch bookmark processing
 - **Recalling past digests** — use `/seance` to find previous processing sessions
+
+## What to Skip
+
+- Don't import memes, duplicate links, outrage bait, or bookmarks with no durable idea.
+- Don't write raw bookmark dumps, cookies, bearer tokens, or private session material into the vault.
+- Don't archive an input file until vault writes, duplicate checks, and summary generation all succeed.
 
 ## Context
 
@@ -42,11 +48,21 @@ If the inbox is empty and no file argument was provided, offer to fetch fresh bo
 ~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh
 ```
 
+Preflight before fetching:
+
+```bash
+command -v gallery-dl >/dev/null && command -v yt-dlp >/dev/null && command -v jq >/dev/null
+git -C ~/Developer/Personal/vault check-ignore -q twitter-bookmarks/cookies.txt || echo "Add cookies.txt to .gitignore before fetching"
+```
+
 If cookies are missing, run with `--refresh-cookies` first (requires Chrome to be closed):
 
 ```bash
 ~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh --refresh-cookies
+chmod 600 ~/Developer/Personal/vault/twitter-bookmarks/cookies.txt
 ```
+
+Never print cookie contents, bearer tokens, `auth_token`, or `ct0` values.
 
 ## Step 1 — Find bookmark exports
 
@@ -74,6 +90,8 @@ For each bookmark, determine category, key insight, actionability, and source. S
 ## Step 3 — Update the vault
 
 For each category, append new entries to the corresponding file in `$INSIGHTS_DIR/<category>/`. See [references/categorization-guide.md](references/categorization-guide.md) for the vault entry format, file naming conventions, and wikilink/tag guidance.
+
+Before writing, search existing notes for the bookmark URL or tweet ID. Skip duplicates; if an existing note covers the same idea, add only a concise new source line or action item.
 
 ## Step 4 — Surface agent guidance updates
 

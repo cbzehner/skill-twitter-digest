@@ -27,6 +27,12 @@ Response path: `data.tweetResult.result.article.article_results.result.plain_tex
 
 Auth: uses the same `cookies.txt` from fetch-bookmarks.sh. Capture the current bearer token from an authenticated X web request or browser devtools; do not commit literal tokens. The GraphQL query ID may rotate — check gallery-dl releases if it breaks.
 
+Treat `TWITTER_BEARER_TOKEN`, `AUTH_TOKEN`, `CT0`, and `cookies.txt` as secrets:
+
+- Keep `cookies.txt` ignored by git and `chmod 600`.
+- Do not echo auth environment variables or paste request headers into notes.
+- If a command fails, report the error class (auth, rate limit, query ID rotated), not the raw response when it may include request headers.
+
 ## Processing enriched articles
 
 1. For each article bookmark, extract the tweet ID from the URL and fetch via the endpoint above
