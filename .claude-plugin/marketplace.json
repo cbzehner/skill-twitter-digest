@@ -9,7 +9,7 @@
     {
       "name": "twitter-digest",
       "source": "./",
-      "description": "Process Twitter/X bookmarks into categorized knowledge vault entries",
+      "description": "Process Twitter/X bookmarks into categorized knowledge vault entries with optional Hermes Tweet fetch/enrichment",
       "version": "1.0.0",
       "author": {
         "name": "cbzehner",

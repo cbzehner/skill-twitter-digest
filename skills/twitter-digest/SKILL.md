@@ -1,6 +1,6 @@
 ---
 name: twitter-digest
-description: Process Twitter/X bookmark exports into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.
+description: Process Twitter/X bookmark exports or Hermes Tweet fetches into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.
 argument-hint: "[path to export file]"
 arguments:
   - export_path
@@ -13,11 +13,11 @@ allowed-tools: Bash Read Write Edit Glob Grep Agent WebFetch Skill
 
 # Twitter Bookmark Digest
 
-Process exported Twitter/X bookmarks, extract insights, and update the vault plus any relevant agent guidance files.
+Process exported or Hermes Tweet-fetched Twitter/X bookmarks, extract insights, and update the vault plus any relevant agent guidance files.
 
 ## When NOT to Use
 
-- **Posting or general Twitter search** — this skill processes exports; it only touches X directly for optional bookmark fetch/enrichment
+- **Posting or general Twitter search** — this skill processes bookmarks; it only touches X directly for optional bookmark fetch/enrichment
 - **Single articles or links** — just add them to the vault directly; this is for batch bookmark processing
 - **Recalling past digests** — use `/seance` to find previous processing sessions
 
@@ -26,10 +26,11 @@ Process exported Twitter/X bookmarks, extract insights, and update the vault plu
 - Don't import memes, duplicate links, outrage bait, or bookmarks with no durable idea.
 - Don't write raw bookmark dumps, cookies, bearer tokens, or private session material into the vault.
 - Don't archive an input file until vault writes, duplicate checks, and summary generation all succeed.
+- Don't call Hermes Tweet `tweet_action` unless the user approved the private bookmark read or another private/action endpoint.
 
 ## Context
 
-You are processing Twitter/X bookmarks for a startup founder and engineering leader. See [references/categorization-guide.md](references/categorization-guide.md) for interest categories, per-bookmark decision criteria, and vault entry format.
+You are processing Twitter/X bookmarks for a startup founder and engineering leader. See [references/categorization-guide.md](references/categorization-guide.md) for interest categories, per-bookmark decision criteria, and vault entry format. If Hermes Tweet is installed, use [references/hermes-tweet-source.md](references/hermes-tweet-source.md) for live bookmark fetches, article enrichment, and thread hydration.
 
 ## Vault Location
 
@@ -42,7 +43,16 @@ INSIGHTS_DIR=$VAULT_DIR/insights
 
 ## Step 0 — Fetch bookmarks (if inbox is empty)
 
-If the inbox is empty and no file argument was provided, offer to fetch fresh bookmarks:
+If the inbox is empty and no file argument was provided, offer to fetch fresh bookmarks.
+
+Preferred live fetch path when Hermes Tweet is available:
+
+1. Follow [references/hermes-tweet-source.md](references/hermes-tweet-source.md).
+2. Use `tweet_explore` to confirm the bookmark endpoint.
+3. Ask for explicit approval before `tweet_action` because bookmarks are a private read.
+4. Write normalized results to `$INBOX_DIR/hermes-tweet-bookmarks-YYYYMMDD.json`.
+
+Fallback local fetch script:
 
 ```bash
 ~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh
@@ -67,6 +77,7 @@ Never print cookie contents, bearer tokens, `auth_token`, or `ct0` values.
 ## Step 1 — Find bookmark exports
 
 Look for unprocessed bookmark files in `$INBOX_DIR/`. If `$ARGUMENTS` specifies a file path, use that instead. Supported formats:
+- **Hermes Tweet JSON** (preferred live source when available - array of normalized bookmarks from `references/hermes-tweet-source.md`)
 - **JSON from fetch-bookmarks.sh** (preferred — array of `{text, author, author_handle, url, date}`): the automated pipeline output
 - **JSON** (Twitter data export `bookmarks.js`, or browser extension exports)
 - **CSV** (common extension format: columns like `text`, `url`, `author`, `created_at`)
@@ -79,9 +90,9 @@ If no files found and fetch script isn't available, suggest manual export:
 
 ## Step 1.5 — Enrich articles and threads
 
-Some bookmarks are X Articles (Notes) where the `text` field is just a URL. These need enrichment before categorization.
+Some bookmarks are X Articles (Notes) where the `text` field is just a URL. These need enrichment before categorization. Prefer Hermes Tweet enrichment when available; use raw GraphQL only as a fallback.
 
-See [references/twitter-api-enrichment.md](references/twitter-api-enrichment.md) for the GraphQL endpoint, auth details, and processing steps.
+See [references/twitter-api-enrichment.md](references/twitter-api-enrichment.md) for Hermes Tweet and fallback GraphQL enrichment steps.
 
 ## Step 2 — Read and categorize
 
