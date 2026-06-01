@@ -29,12 +29,12 @@ Process exported Twitter/X bookmarks, extract insights, and update the vault plu
 
 ## Context
 
-You are processing Twitter/X bookmarks for a startup founder and engineering leader. See [references/categorization-guide.md](references/categorization-guide.md) for interest categories, per-bookmark decision criteria, and vault entry format.
+You are processing Twitter/X bookmarks into a local markdown knowledge vault. See [references/categorization-guide.md](references/categorization-guide.md) for default interest categories, per-bookmark decision criteria, and vault entry format. Adapt the categories to the user's vault when local conventions already exist.
 
 ## Vault Location
 
 ```
-VAULT_DIR=~/Developer/Personal/vault
+VAULT_DIR=${VAULT_DIR:-$HOME/vault}
 INBOX_DIR=$VAULT_DIR/twitter-bookmarks/inbox
 PROCESSED_DIR=$VAULT_DIR/twitter-bookmarks/processed
 INSIGHTS_DIR=$VAULT_DIR/insights
@@ -45,21 +45,21 @@ INSIGHTS_DIR=$VAULT_DIR/insights
 If the inbox is empty and no file argument was provided, offer to fetch fresh bookmarks:
 
 ```bash
-~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh
+"$VAULT_DIR/twitter-bookmarks/fetch-bookmarks.sh"
 ```
 
 Preflight before fetching:
 
 ```bash
 command -v gallery-dl >/dev/null && command -v yt-dlp >/dev/null && command -v jq >/dev/null
-git -C ~/Developer/Personal/vault check-ignore -q twitter-bookmarks/cookies.txt || echo "Add cookies.txt to .gitignore before fetching"
+git -C "$VAULT_DIR" check-ignore -q twitter-bookmarks/cookies.txt || echo "Add cookies.txt to .gitignore before fetching"
 ```
 
 If cookies are missing, run with `--refresh-cookies` first (requires Chrome to be closed):
 
 ```bash
-~/Developer/Personal/vault/twitter-bookmarks/fetch-bookmarks.sh --refresh-cookies
-chmod 600 ~/Developer/Personal/vault/twitter-bookmarks/cookies.txt
+"$VAULT_DIR/twitter-bookmarks/fetch-bookmarks.sh" --refresh-cookies
+chmod 600 "$VAULT_DIR/twitter-bookmarks/cookies.txt"
 ```
 
 Never print cookie contents, bearer tokens, `auth_token`, or `ct0` values.

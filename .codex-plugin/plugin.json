@@ -1,0 +1,30 @@
+{
+  "name": "twitter-digest",
+  "version": "1.0.0",
+  "description": "Process Twitter/X bookmark exports into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.",
+  "author": {
+    "name": "cbzehner",
+    "url": "https://github.com/cbzehner"
+  },
+  "homepage": "https://github.com/cbzehner/skill-twitter-digest",
+  "repository": "https://github.com/cbzehner/skill-twitter-digest",
+  "license": "MIT",
+  "keywords": [
+    "twitter-digest",
+    "twitter",
+    "digest",
+    "agent-skill"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Twitter Digest",
+    "shortDescription": "Process Twitter/X bookmark exports into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest,...",
+    "longDescription": "Process Twitter/X bookmark exports into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.",
+    "developerName": "cbzehner",
+    "category": "Knowledge",
+    "capabilities": [
+      "Knowledge"
+    ],
+    "websiteURL": "https://github.com/cbzehner/skill-twitter-digest"
+  }
+}
