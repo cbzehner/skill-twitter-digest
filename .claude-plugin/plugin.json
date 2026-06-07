@@ -1,10 +1,10 @@
 {
   "name": "twitter-digest",
-  "description": "Process exported or Hermes Tweet-fetched Twitter/X bookmarks, categorize insights, and update a knowledge vault.",
+  "description": "Process Twitter/X bookmark exports or optional Hermes Tweet fetches into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.",
   "version": "1.0.0",
   "author": {
     "name": "cbzehner",
-    "email": "chris@cbzehner.com"
+    "url": "https://github.com/cbzehner"
   },
   "repository": "https://github.com/cbzehner/skill-twitter-digest",
   "license": "MIT"

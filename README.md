@@ -1,44 +1,41 @@
 # Twitter Digest
 
-Process exported or Hermes Tweet-fetched Twitter/X bookmarks, categorize insights, and update a knowledge vault.
+Process Twitter/X bookmark exports into categorized markdown notes. The skill extracts useful ideas, writes vault entries, and keeps cookies and tokens out of logs.
 
-## What It Does
+## Use It For
 
-Reads bookmark exports (JSON, CSV, or Markdown), or fetches bookmarks through an optional Hermes Tweet route, categorizes each by topic, extracts key insights, and writes them to an Obsidian-style vault with wikilinks and tags.
+- Turning saved tweets into reusable notes
+- Categorizing bookmarks by topic
+- Updating a local markdown vault from exports
+- Optionally fetching or enriching bookmarks through Hermes Tweet when installed
 
-## Usage
+## Install
 
-```
-/twitter-digest                          Process files in inbox
-/twitter-digest ~/Downloads/bookmarks.json   Process a specific file
-```
-
-If Hermes Tweet is installed in Hermes Agent, the skill can fetch fresh bookmarks and enrich X Articles or threads through the `tweet_explore`, `tweet_read`, and approval-gated `tweet_action` tools before processing.
-
-## Categories
-
-- **CS developments** - PLT, systems, algorithms, research
-- **Agentic coding** - AI-assisted development, LLM tooling
-- **Business & technology** - Startups, SaaS, developer tools
-- **Engineering leadership** - Teams, hiring, org design
-
-## Installation
-
-### From Marketplace
+Clone the repo and run the installer:
 
 ```bash
-/plugin marketplace add cbzehner/skill-twitter-digest
-/plugin install twitter-digest@cbzehner
+git clone https://github.com/cbzehner/skill-twitter-digest.git
+cd skill-twitter-digest
+./install.sh all
 ```
 
-### Manual Installation
+Install targets:
 
-```bash
-cd ~/.claude/skills/
-git clone https://github.com/cbzehner/skill-twitter-digest.git twitter-digest
-```
+- `./install.sh claude` installs to `~/.claude/skills/twitter-digest`
+- `./install.sh codex` installs to `~/.codex/skills/twitter-digest`
+- `./install.sh agents` installs to `~/.agents/skills/twitter-digest`
+- `./install.sh opencode` installs to `~/.config/opencode/skills/twitter-digest`
+- `./install.sh all --copy` copies files instead of symlinking
 
-### Optional Hermes Tweet Backend
+Manual install works too: symlink or copy `skills/twitter-digest` into your agent's skills directory.
+
+## Agent Support
+
+This repo uses the plain `skills/twitter-digest/SKILL.md` layout. Claude Code and Codex also get small plugin manifests at `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json`.
+
+Other agents can read the same `SKILL.md` file. If a host does not support a frontmatter field or tool name, ignore that field and follow the workflow text.
+
+## Optional Hermes Tweet Backend
 
 Install Hermes Tweet when you want live bookmark fetches or richer tweet/article/thread enrichment:
 
@@ -47,7 +44,22 @@ hermes plugins install Xquik-dev/hermes-tweet --enable
 hermes tools list
 ```
 
-Configure the Hermes runtime with `XQUIK_API_KEY`. Do not paste keys or cookies into chat.
+Configure the Hermes runtime with `XQUIK_API_KEY`. Do not paste keys or cookies into chat. See `skills/twitter-digest/references/hermes-tweet-source.md`.
+
+## Layout
+
+```text
+.claude-plugin/plugin.json
+.codex-plugin/plugin.json
+install.sh
+skills/twitter-digest/SKILL.md
+README.md
+LICENSE
+```
+
+## Public Notes
+
+These repos are public. Keep private repo names, secrets, customer data, raw logs, cookies, and absolute filesystem paths out of examples.
 
 ## License
 
