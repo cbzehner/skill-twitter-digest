@@ -1,3 +1,5 @@
+> **Moved:** this skill now lives in [cbzehner/skills](https://github.com/cbzehner/skills) under `skills/twitter-digest/`. This repo is archived and read-only.
+
 # Twitter Digest
 
 Process Twitter/X bookmark exports into categorized markdown notes. The skill extracts useful ideas, writes vault entries, and keeps cookies and tokens out of logs.
