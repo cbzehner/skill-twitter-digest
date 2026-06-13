@@ -1,6 +1,6 @@
 {
   "name": "twitter-digest",
-  "description": "Process Twitter/X bookmark exports into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.",
+  "description": "Process Twitter/X bookmark exports or optional Hermes Tweet fetches into categorized vault insights. Use for bookmarks, saved tweets, Twitter digest, or social media knowledge extraction.",
   "version": "1.0.0",
   "author": {
     "name": "cbzehner",

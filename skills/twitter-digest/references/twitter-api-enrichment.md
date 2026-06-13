@@ -2,7 +2,19 @@
 
 Some bookmarks are X Articles (Notes) where the `text` field is just a URL like `x.com/i/article/...`. These need enrichment before categorization.
 
+## Preferred: Hermes Tweet
+
+When Hermes Tweet is installed, prefer the safer plugin route in [hermes-tweet-source.md](hermes-tweet-source.md):
+
+- Use `tweet_explore` to discover article, tweet, and thread endpoints.
+- Use `tweet_read` for `/api/v1/x/articles/{tweetId}`, `/api/v1/x/tweets/{id}`, `/api/v1/x/tweets/{id}/thread`, and `/api/v1/x/tweets`.
+- Use `tweet_action` only for private bookmark fetches after explicit user approval.
+
+This keeps credentials in the Hermes runtime and avoids copying browser cookies, bearer tokens, or request headers into the digest workflow.
+
 ## Fetching X Article content
+
+Use this raw GraphQL path only when Hermes Tweet is unavailable and the user already has the local cookie-based export workflow configured.
 
 Use Twitter's internal GraphQL API with the `TweetResultByRestId` endpoint and `fieldToggles.withArticlePlainText: true`:
 
